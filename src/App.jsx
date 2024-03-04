@@ -65,7 +65,7 @@ const checkScore = (target) => {
               <img src={mon.sprites.front_default} alt={mon.name} />
           </CardContent>
           <CardFooter className='justify-center'>
-              <h1 style={{textTransform: 'capitalize'}}>{mon.name}</h1>
+              <h1 style={{textTransform: 'capitalize'}} className='text-sm'>{mon.name}</h1>
           </CardFooter>
       </Card>
         ))}
