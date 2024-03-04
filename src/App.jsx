@@ -7,6 +7,8 @@ import { Card, CardContent, CardFooter } from "./components/ui/card";
 
 function App() {
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [clicked, setClicked] = useState([]);
   const pkmnList = ['bulbasaur', 'cyndaquil', 'torchic', 'turtwig', 'snivy', 'froakie', 'rowlet', 'grookey', 'quaxly']
   const [monList, setMonList] = useState([]);
 
@@ -38,18 +40,36 @@ function App() {
   .catch(console.error);
 }, []);
 
+const checkScore = (target) => {
+  console.log(clicked);
+  // Check if the target has already been clicked
+  if(!clicked.includes(target)){
+    // If not, increase the score and add the key of this target to the list of clicked items
+    setScore(prevScore => prevScore + 1);
+    setClicked(prevClicked => [...prevClicked, target]);
+  }else{
+    setHighScore(score);
+    setScore(0);
+    setClicked([]);
+  }
+}
+
+
   return (
-    <div className='grid grid-cols-3 grid-rows-3 '>
-      {_.shuffle(monList).map(mon =>(
-        <Card key={mon.id}>
-        <CardContent>
-            <img src={mon.sprites.front_default} alt={mon.name} />
-        </CardContent>
-        <CardFooter>
-            <h1 style={{textTransform: 'capitalize'}}>{mon.name}</h1>
-        </CardFooter>
-    </Card>
-      ))}
+    <div>
+      <h1 className='text-center text-lg'>Score: {score} | High Score: {highScore}</h1>
+      <div className='grid grid-cols-3 grid-rows-3 gap-11 '>
+        {_.shuffle(monList).map(mon =>(
+          <Card key={mon.id} className='w-80' onClick={() => checkScore(mon.id)}>
+          <CardContent  className='justify-center'>
+              <img src={mon.sprites.front_default} alt={mon.name} />
+          </CardContent>
+          <CardFooter className='justify-center'>
+              <h1 style={{textTransform: 'capitalize'}}>{mon.name}</h1>
+          </CardFooter>
+      </Card>
+        ))}
+      </div>
     </div>
   )
 }
